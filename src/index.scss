@@ -20,3 +20,30 @@
     font-family: Archivo;
     src: url("assets/fonts/Archivo.ttf");
 }
+
+.outline-text{
+    -webkit-text-stroke-color: white;
+    -webkit-text-stroke-width: 0.4px;
+}
+
+.outline-text{
+    -webkit-text-stroke-color: #FD5635;
+    -webkit-text-stroke-width: 1px;
+}
+
+@layer components{
+    .button{
+        @apply text-sm font-semibold text-center text-white rounded shadow-sm bg-portland_orange hover:brightness-150 py-3 px-5;
+    }
+
+    .textfield{
+        @apply px-3 py-2 leading-tight border rounded shadow-sm appearance-none border-slate-600 focus:outline-none focus:border-slate-500 bg-slate-800;
+    }
+
+    
+}
+
+::-ms-reveal{
+    display: block;
+    filter: invert(100%);
+}
