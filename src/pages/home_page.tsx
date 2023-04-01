@@ -15,7 +15,8 @@ const HomePage: React.FC = () => {
           With real-time alerts and remote access, you can rest easy knowing
           that your property is protected against fire hazards.
         </p>
-        <Link className="px-20 py-3 text-sm font-semibold text-center text-white transition-all duration-200 rounded-xl shadow-sm bg-portland_orange hover:brightness-125 self-center animate-slidein" to="/">Get Started</Link>
+        
+        <Link className="self-center px-20 rounded-full button animate-slidein" to="/">Get Started</Link>
         
       </section>
       <footer>

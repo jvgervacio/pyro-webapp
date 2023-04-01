@@ -15,7 +15,7 @@ const Navbar: React.FC<{selected_index:number}> = (props) => {
           nav_items.map((item, index) => <Link className={"px-5 py-2 text-center w-max hover:text-orange-4001"} to={item.link}>{item.title}</Link>)
         }
         </section>
-        <Link className="px-10 py-2 text-sm font-semibold text-center text-white transition-all duration-200 rounded shadow-sm w-min bg-portland_orange hover:brightness-125" to="/login">Login</Link>
+        <Link className="px-10 py-2 text-sm font-semibold text-center text-white transition-all duration-200 rounded shadow-sm w-min bg-portland_orange hover:brightness-125" to="/signin">Login</Link>
       </nav>
     );
 }
