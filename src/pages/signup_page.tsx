@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import { Link } from 'react-router-dom';
-
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 const SignupPage: React.FC = () => {
   return (
       <div className='grid w-full h-screen bg-repeat place-items-center bg-cell'>

@@ -2,9 +2,6 @@ import React from "react";
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 import Map, {ScaleControl} from "react-map-gl";
-import { MapboxScaleControl } from "react-map-gl/dist/esm/types";
-
-const MAPBOX_TOKEN = "pk.eyJ1IjoianZnZXJ2YWNpbzEyMDQ5MCIsImEiOiJjbGZ3eXV6YmkwamNyM21xcXJ3cWJqNXJ0In0.G3OxdgB6KeDqeoE099AYJQ";
 
 const TrackingPage: React.FC = () => {
   const initialViewState = {
@@ -26,13 +23,14 @@ const TrackingPage: React.FC = () => {
             // latitude={initialViewState.latitude}
             pitch={initialViewState.pitch}
             mapStyle="mapbox://styles/jvgervacio120490/clfwy7lf5003001rwivsiq3ck"
-            mapboxAccessToken={MAPBOX_TOKEN}
+            mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
             minZoom={3}
             bearing={initialViewState.bearing}
             attributionControl={false}
             style={{ width: "100%", height: "100%" }}
+            
             >
-            <ScaleControl/>
+            <ScaleControl position="bottom-left" />
           </Map>
         </div>
       </section>
