@@ -13,7 +13,8 @@ export default {
         'lora': ['Lora'],
       },
       backgroundImage: {
-        'cell': "url('/src/assets/svg/cell.svg')",
+        'cell': "url('/src/assets/svg/cell.svg')"
+        
       },
       colors:{
         maximum_yellow_red: "#ffbf47", 

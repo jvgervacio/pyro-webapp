@@ -1,7 +1,13 @@
 import React from "react";
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
-import Map, {ScaleControl} from "react-map-gl";
+import Map, {Marker, ScaleControl} from "react-map-gl";
+import { useState } from "react";
+import {onValue, query, ref, getDatabase} from "firebase/database";
+
+// onValue(query(ref(getDatabase(), "locations")), (snapshot) => {
+//   console.log(snapshot.val());
+// });
 
 const TrackingPage: React.FC = () => {
   const initialViewState = {
@@ -12,6 +18,7 @@ const TrackingPage: React.FC = () => {
     bearing: 0
     
   }
+  
   return (
     <div className="w-screen h-screen bg-repeat bg-cell">
       <Navbar selected_index={1} />
@@ -30,7 +37,11 @@ const TrackingPage: React.FC = () => {
             style={{ width: "100%", height: "100%" }}
             
             >
-            <ScaleControl position="bottom-left" />
+              // make a border circle that will be the marker and pulsatate it
+              <Marker longitude={initialViewState.longitude} latitude={initialViewState.latitude}>
+                <div className="w-10 h-10 bg-red-500 rounded-full animate-pulse"></div>
+              </Marker>
+              <ScaleControl />
           </Map>
         </div>
       </section>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
 import {signInWithEmailAndPassword, getAuth} from 'firebase/auth';
-import {getApp} from 'firebase/app';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const SigninPage: React.FC = () => {
