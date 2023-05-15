@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import { getAuth, updateProfile, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref as storage_ref, getDownloadURL, getStorage } from 'firebase/storage';
 import { doc, setDoc, getFirestore, GeoPoint} from 'firebase/firestore';
@@ -34,7 +34,7 @@ const SignupPage: React.FC = () => {
                     console.log("Document successfully written!");
                 }).catch((error) => console.log(error));
 
-                navigate("/");
+                navigate("/", {replace: true});
                 // ...
             }).catch((error) => {
                 const errorCode = error.code;
@@ -58,8 +58,8 @@ const SignupPage: React.FC = () => {
     return (
         <div className='grid w-full h-screen bg-repeat place-items-center bg-cell'>
             <div className='flex flex-col items-center content-center w-[400px] gap-5 -translate-y-10'>
-            <h1 className='text-3xl font-bold font-montserrat animate-slidein'>Create an account</h1>
-                            <div className="w-full px-8 py-8 rounded-md shadow shadow-slate-900 bg-slate-900 animate-slidein">
+            <h1 className='text-3xl font-bold font-montserrat animate-slidein uppercase'>Create an account</h1>
+                            <div className="w-full px-8 py-8 rounded-md bg-gradient-to-tr from-slate-800 to-slate-900 shadow-sm shadow-slate-500 animate-slidein">
                                 <div className="w-full mb-4">
                                     <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Full Name</label>
                                     <input className="w-full textfield" id="fullname" type="text" placeholder="Juan Dela Cruz" onChange={(e) => setFullName(e.target.value)} />
@@ -81,9 +81,9 @@ const SignupPage: React.FC = () => {
                                     <button className="w-full mb-3 button" type="button" onClick={signup}>Sign Up</button>
                                     <p className="text-center">
                                         Already have an account?{" "}
-                                        <Link className="italic underline" to="/signin">
+                                        <button className="italic underline underline-offset-4 hover:text-slate-100" onClick={() => navigate('/signin', {replace: true})}>
                                             Sign in here
-                                        </Link>
+                                        </button>
                                     </p>
                                 </div>
 

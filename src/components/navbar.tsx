@@ -1,32 +1,48 @@
-import { Link, NavLink, useNavigate} from "react-router-dom"
-const Navbar: React.FC<{selected_index:number}> = (props) => {
-    const nav_items = [
-        { link: '/', title: "Home" },
-        { link: '/track', title: "Track" },
-        { link: '/features', title: "Features" },
-        { link: '/about', title: "About Us" },
-    ]
-    return (
-      <nav className="flex items-center justify-between max-w-screen-xl p-4 mx-auto align-middle animate-fade-in">
-        <section className="logo"><a className="text-3xl font-black tracking-widest font-archivo text-portland_orange">PYRO</a></section>
-        <section className="flex gap-10">
-        {
-          nav_items.map((item, index) => 
-          <NavLink className={
-            
-            ({isActive}) =>
-              isActive ? 
-              "text-orange-600":
-              ""
-            }  
-            to={item.link}>
-            {item.title}
-          </NavLink>)
-        }
-        </section>
-        <Link className="px-10 py-2 text-sm font-semibold text-center text-white transition-all duration-200 rounded shadow-sm w-min bg-portland_orange hover:brightness-125" to="/signin">Login</Link>
+import { Link, NavLink, useNavigate } from "react-router-dom"
+const Navbar: React.FC<{ className?: string }> = (props) => {
+  const nav_items = [
+    { link: '/', title: "Home" },
+    { link: '/track', title: "Track" },
+    { link: '/features', title: "Features" },
+    { link: '/about', title: "About Us" },
+  ]
+  return (
+    <div className={props.className}>
+      <nav className="flex items-center w-full max-w-screen-xl justify-between py-2">
+        <div className="flex gap-20 items-center">
+          <section className="logo">
+            <a className="font-montserrat font-bold  text-orange_peel text-3xl tracking-widest">
+              PYRO
+            </a>
+          </section>
+          <section className="flex gap-10">
+            {
+              nav_items.map((item, index) =>
+                <NavLink key={index}
+                  className={
+
+                    ({ isActive }) =>
+                      isActive ?
+                        "text-orange_peel" :
+                        "text-slate-400 hover:text-slate-300"
+                  }
+                  to={item.link}
+                  replace = {true}
+                  >
+                  
+                  {item.title}
+
+                </NavLink>)
+            }
+          </section>
+        </div>
+        <div className="flex gap-5 items-center">
+          <Link className="text-slate-300 hover:text-slate-200" to="/signin">Sign in</Link>
+          <Link className="button" to="/signup">Sign up</Link>
+        </div>
       </nav>
-    );
+    </div>
+  );
 }
 
 export default Navbar;

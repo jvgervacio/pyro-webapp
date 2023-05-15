@@ -22,11 +22,11 @@ const SigninPage: React.FC = () => {
   
   return (
     <div className="grid w-full h-screen bg-repeat place-items-center bg-cell">
-      <div className="flex flex-col items-center content-center w-[400px] gap-5 -translate-y-10">
-        <h1 className="text-3xl font-bold font-montserrat animate-slidein">
+      <div className="flex flex-col items-center content-center w-[500px] gap-5 -translate-y-10">
+        <h1 className="text-3xl font-bold font-montserrat animate-slidein uppercase">
           Sign in to your account
         </h1>
-        <div className="flex flex-col w-full gap-5 px-8 py-10 rounded-md shadow shadow-slate-900 bg-slate-900 animate-slidein justify-stretch">
+        <div className="flex flex-col w-[400px] gap-5 px-8 py-10 bg-gradient-to-tr from-slate-800 to-slate-900 rounded-lg shadow-sm shadow-slate-500 font-work-sans animate-slidein justify-stretch">
         <div>
               <label
                 className="block mb-2 text-sm font-medium text-slate-300"
@@ -81,9 +81,9 @@ const SigninPage: React.FC = () => {
               </button>
               <p className="text-center">
                 Don't have an account?{" "}
-                <Link className="italic underline" to="/signup">
+                <button className="italic underline underline-offset-4 hover:text-slate-100" onClick={() => navigate('/signup', {replace: true})}>
                   Sign up here
-                </Link>
+                </button>
               </p>
             </div>
         </div>

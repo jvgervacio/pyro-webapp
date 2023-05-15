@@ -1,28 +1,30 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import { Link } from 'react-router-dom';
-
+import { HomeTemplate } from '../components/template';
+import buildingImage from '../assets/images/building.png';
 const HomePage: React.FC = () => {
   return (
-    <div className='w-screen h-screen bg-repeat bg-cell'>
-      <Navbar selected_index={1}/>
-      <section className='flex flex-col justify-center max-w-screen-xl gap-10 mx-auto h-[70%]'>
-        <h1 className='font-black tracking-wide text-center text-8xl font-archivo animate-slidein'>WELCOME TO <span className='text-portland_orange'>PYRO</span></h1>
-        
-        <p className='text-base text-center animate-slidein'>The revolutionary web-based fire alarm system. 
-          Our state-of-the-art technology allows you to monitor 
-          and control your fire alarm system from anywhere, at any time. 
-          With real-time alerts and remote access, you can rest easy knowing
-          that your property is protected against fire hazards.
-        </p>
-        
-        <Link className="self-center px-20 rounded-full button animate-slidein" to="/">Get Started</Link>
-        
-      </section>
-      <footer>
+    <HomeTemplate className='w-screen h-screen bg-repeat bg-cell flex justify-center'>
 
+      <div className='relative flex items-center w-full h-full max-w-screen-xl'>
+        <img alt='' src={buildingImage} className='w-[600px] object-fill absolute right-0 z-[-1] animate-slidein' />
+        <img alt='' src={buildingImage} className='w-[600px] object-fill absolute right-0 -z-10 opacity-10 animate-slidein' />
+        <section className='w-[800px] animate-fade-in'>
+          <h1 className='text-5xl font-extrabold text-white uppercase tracking-wide'>
+            Stay ahead of the flames with our <span className='text-orange_peel'>real-time fire alarm system</span>
+          </h1>
+          <br />
+          <p className='text-justify text-slate-100 w-[700px]'>Ensure the safety of your property and people with our web-based real-time fire alarm system. Our advanced technology provides you with instant alerts and allows you to take action from anywhere, giving you peace of mind and the power to respond quickly in case of an emergency. </p>
+        </section>
+
+      </div>
+      <footer className='absolute bottom-0 w-full flex justify-center p-5 z-10'>
+        <p className='text-sm text-gray-400 animate-fade-in'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
       </footer>
-    </div>
+
+
+    </HomeTemplate>
   );
 };
 

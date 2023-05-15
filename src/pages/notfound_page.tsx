@@ -9,7 +9,7 @@ const NotFoundPage: React.FC = () => {
                 <h1 className='font-black text-transparent outline-text text-9xl font-archivo'>404</h1>
                 <h2 className='text-3xl font-black text-portland_orange'>PAGE NOT FOUND</h2>
                 <p className='mb-10 text-center'>The page you are looking for does not exist.</p>
-                <Link className="w-full px-0 py-3 text-sm font-semibold text-center text-white transition-all duration-200 rounded shadow-sm bg-portland_orange hover:brightness-125" to="/">Return to homepage</Link>
+                <Link className="button" to="/">Return to homepage</Link>
           </div>
       </div>
   );
