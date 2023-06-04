@@ -20,7 +20,7 @@ const EstablishmentMarker = (props: { establishment: Establishment, size: number
             offset={[-size / 2, -size / 2]}
             
         >   
-            <div className="absolute" style={{ width: size, height: size }}>
+            <div className={`absolute w-[${size}] h-[${size}]`}>
                 <Lottie alt="pulse icon"
                     animationData={pulseLottie}
                     autoPlay={true}
