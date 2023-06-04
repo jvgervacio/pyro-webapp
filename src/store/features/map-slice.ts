@@ -1,8 +1,9 @@
+import { Establishment } from "@/utils/utility_types";
 import { createSlice } from "@reduxjs/toolkit";
 import { ViewState } from 'react-map-gl';
 
-const viewstateSlice = createSlice({
-    name: "viewstate",
+const mapSlice = createSlice({
+    name: "map",
     initialState: {
         viewstate: {
             longitude: 125.8094609394992,
@@ -11,17 +12,21 @@ const viewstateSlice = createSlice({
             pitch: 100,
             bearing: 0,
             padding: {top: 0, bottom: 0, left: 0, right: 0}
-        } as ViewState
+        } as ViewState,
+        establishments: [] as Array<Establishment>,
       },
     reducers: {
         setViewState(state, action) {
             state.viewstate = action.payload;
+        },
+        setEstablishments(state, action) {
+            state.establishments = action.payload;
         }
     }
 });
 
-export const viewstateActions = viewstateSlice.actions;
-export default viewstateSlice;
+export const mapSliceActions = mapSlice.actions;
+export default mapSlice;
 
 
 

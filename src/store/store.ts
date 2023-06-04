@@ -1,12 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import authSlice from '@store/features/auth-slice';
-import viewstateSlice from '@store/features/viewstate-slice';
+import mapSlice from '@store/features/map-slice';
 
 const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
-        track: viewstateSlice.reducer,
+        map: mapSlice.reducer,
     }
 });
-
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

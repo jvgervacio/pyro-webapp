@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReducerState } from "react";
 import Map, { FullscreenControl, ViewState} from "react-map-gl";
 import { useState, useEffect } from "react";
 import { getFirestore, onSnapshot, collection, } from 'firebase/firestore';
@@ -6,22 +6,17 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Establishment } from "@utils/utility_types";
 import EstablishmentMarker from "@components/establishment_marker";
 import { HomeTemplate } from "@components/template";
+import { useDispatch, useSelector } from "react-redux";
+import { mapSliceActions } from "@/store/features/map-slice";
+import {} from "@store/features/map-slice"
+import { AppDispatch, RootState } from "@/store/store";
+
 
 const TrackingPage: React.FC = () => {
-  const initialViewState: ViewState = {
-    longitude: 125.8094609394992,
-    latitude:7.447115401399549,
-    zoom: 13,
-    pitch: 100,
-    bearing: 0,
-    padding: {top: 0, bottom: 0, left: 0, right: 0}
-  };
-
-
-  const [viewstate, setViewState] = useState(initialViewState);
-  const initialEstablishments: Establishment[] = [];
-  const [establishments, setEstablishments] = useState<Establishment[]>(initialEstablishments);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const viewstate = useSelector((state: RootState) => state.map.viewstate);
+  const establishments = useSelector((state: RootState) => state.map.establishments);
+  
   useEffect(() => {
     var unsub = onSnapshot(collection(getFirestore(), "user_data"), (snapshot) => {
       var updated_list: Establishment[] = [];
@@ -35,13 +30,14 @@ const TrackingPage: React.FC = () => {
         });
 
       });
-      
-      setEstablishments(updated_list);
+      dispatch(mapSliceActions.setEstablishments(updated_list));
 
     });
     return () => unsub();
 
   }, []);
+
+  const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
 
   const onMouseDown = (e: mapboxgl.MapLayerMouseEvent) => {
     console.log(e.lngLat);
