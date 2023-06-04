@@ -1,7 +1,7 @@
 import { MainTemplate } from '../components/template';
 import Card from '../components/card';
-import { GiMovementSensor, GiRingingAlarm, GiFire } from 'react-icons/gi'
-import { } from 'react-icons/'
+import { GiMovementSensor, GiRingingAlarm} from 'react-icons/gi'
+import TwoWrapper from '../components/two';
 
 const DashboardPage: React.FC = () => {
   const card_data = [
@@ -17,7 +17,7 @@ const DashboardPage: React.FC = () => {
           <div className='flex justify-between h-min w-full gap-3'>
             {
               card_data.map((item, index) =>
-                <Card className='w-full h-[100px] backdrop-blur-sm bg-gradient-to-br from-orange_peel to-vermillion'>
+                <Card key={index} className='w-full h-[100px] backdrop-blur-sm bg-gradient-to-br from-orange_peel to-vermillion'>
                   <div className='flex flex-col gap-1'>
                     <h1 className='text-white font-montserrat opacity-75'>{item.title}</h1>
                     <p className='text-white text-5xl font-archivo font-black'>23</p>
@@ -26,9 +26,14 @@ const DashboardPage: React.FC = () => {
                 </Card>)
             }
           </div>
-          <Card className='flex w-full h-full bg-gradient-to-tr from-slate-800 to-slate-900'></Card>
+          <Card className='flex bg-gradient-to-tr from-slate-800 to-slate-900 h-full'>
+            <TwoWrapper className = "w-full h-full bg-transparent absolute top-0 left-0"/>
+            <button className='absolute right-5 bottom-5 button'>reset</button>
+          </Card>
         </div>
-        <Card className='flex w-[300px] h-full bg-gradient-to-tr from-slate-800 to-slate-900 grow-1'></Card>
+        <Card className='flex w-[300px] h-full bg-gradient-to-tr from-slate-800 to-slate-900 grow-1'>
+
+        </Card>
       </div>
     </MainTemplate>
   );

@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
 import {signInWithEmailAndPassword, getAuth} from 'firebase/auth';
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch } from "react-redux";
+import { authActions } from "store/features/auth-slice";
+
 
 const SigninPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [remember_me, setRememberme] = useState(false);
   const [user, loading, error] = useAuthState(getAuth());
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
+
   const login = async () => {
     try {
       console.log("Logging in...");
       await signInWithEmailAndPassword(getAuth(),email, password);
-      navigate("/dashboard");
+      dispatch(authActions.login(user));
     } catch (error: any) {
       console.log(error.message);
     }
-  }
+  };
   
   return (
     <div className="grid w-full h-screen bg-repeat place-items-center bg-cell">
@@ -60,18 +63,6 @@ const SigninPage: React.FC = () => {
               />
             </div>
             <div className="flex justify-between">
-              <div className="flex gap-2">
-                <input
-                  className=""
-                  id="rememberme"
-                  type="checkbox"
-                  placeholder="Password"
-                  onChange={(e) => setRememberme(e.target.checked)}
-                ></input>
-                <label className="text-slate-300" htmlFor="rememberme">
-                  Remember me
-                </label>
-              </div>
               <a className="font-semibold text-orange-300">Forgot password?</a>
             </div>
 

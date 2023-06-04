@@ -3,6 +3,9 @@ import Navbar from '../components/navbar';
 import { Link } from 'react-router-dom';
 import { HomeTemplate } from '../components/template';
 import buildingImage from '../assets/images/building.png';
+
+
+
 const HomePage: React.FC = () => {
   return (
     <HomeTemplate className='w-screen h-screen bg-repeat bg-cell flex justify-center'>

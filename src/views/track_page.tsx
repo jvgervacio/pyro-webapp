@@ -6,11 +6,9 @@ import { useState, useEffect } from "react";
 import { getFirestore, GeoPoint, onSnapshot, collection, } from 'firebase/firestore';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Lottie from 'lottie-react'
-import { Establishment } from "../util/utility_types";
+import { Establishment } from "../utils/utility_types";
 import EstablishmentMarker from "../components/establishment_marker";
 import { HomeTemplate } from "../components/template";
-
-
 
 const TrackingPage: React.FC = () => {
   const initialViewState: ViewState = {
@@ -32,11 +30,11 @@ const TrackingPage: React.FC = () => {
       var updated_list: Establishment[] = [];
 
       snapshot.forEach((doc) => {
-
+        var data = doc.data()
         updated_list.push({
           id: doc.id,
-          location: doc.data().location,
-          status: doc.data().status_level
+          location: data.location,
+          status: data.status_level
         });
 
       });
@@ -47,9 +45,13 @@ const TrackingPage: React.FC = () => {
     return () => unsub();
 
   }, []);
+
+  const onMouseDown = (e: mapboxgl.MapLayerMouseEvent) => {
+    console.log(e.lngLat);
+  }
   return (
-    <HomeTemplate className='w-screen h-screen bg-repeat bg-cell flex justify-center'>
-      <section className="flex w-full h-full items-center pt-20 pb-16 max-w-screen-xl animate-fade-in">
+    <HomeTemplate className='flex justify-center w-screen h-screen bg-repeat bg-cell'>
+      <section className="flex items-center w-full h-full max-w-screen-xl pt-20 pb-16 animate-fade-in">
         <div className="w-full h-full bg-transparent shadow rounded-3xl overflow-clip shadow-slate-900 c">
           
           <Map
@@ -58,7 +60,7 @@ const TrackingPage: React.FC = () => {
             // longitude={initialViewState.longitude}
             // latitude={initialViewState.latitude}
             pitch={viewstate.pitch}
-            
+            onMouseDown={onMouseDown}
             mapStyle="mapbox://styles/jvgervacio120490/clfwy7lf5003001rwivsiq3ck"
             mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
             minZoom={3}
@@ -81,14 +83,13 @@ const TrackingPage: React.FC = () => {
                     <EstablishmentMarker key={`marker_${establishment.id}`} establishment={establishment} size={size} />
                   )
                 })
-                
               }
             
           </Map>
         </div>
         
       </section>
-      <footer className='absolute bottom-0 w-full flex justify-center p-5 z-10'>
+      <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5'>
         <p className='text-sm text-gray-400'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
       </footer>
     </HomeTemplate>

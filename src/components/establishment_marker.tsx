@@ -1,5 +1,5 @@
 import { Marker, Popup,  } from "react-map-gl";
-import { Establishment } from "../util/utility_types";
+import { Establishment } from "../utils/utility_types";
 //@ts-ignore
 import flameLottie from '../assets/lottie/flame.json';
 import pulseLottie from '../assets/lottie/pulse.json';
