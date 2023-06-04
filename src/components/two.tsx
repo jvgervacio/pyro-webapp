@@ -2,7 +2,7 @@ import { useRef, useEffect, createRef, useState } from 'react';
 import Two from 'two.js';
 import { ZUI, Surface } from 'two.js/extras/jsm/zui';
 import { Vector } from 'two.js/src/vector';
-import mysvg from '../assets/dxf/test.svg';
+import mysvg from '@assets/dxf/test.svg';
 interface Props {
   className: string;
 }

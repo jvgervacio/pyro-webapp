@@ -1,20 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.scss'
 import { BrowserRouter, Route, Routes, redirect } from 'react-router-dom'
-import HomePage from 'views/home_page'
-import SigninPage from 'views/signin_page';
-import NotFoundPage from 'views/notfound_page'
-import TrackingPage from 'views/track_page'
-import SignupPage from 'views/signup_page'
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged} from 'firebase/auth';
-import DashboardPage from 'views/dashboard_page'
-import LayoutPage from 'views/layout_page';
-import HistoryPage from 'views/history_page'
-import SettingsPage from 'views/settings_page'
 import { Provider } from 'react-redux'
-import store from 'store/store'
+
+import "@styles/index.scss"
+
+import store from '@store/store'
+
+import HomePage from '@views/home_page'
+import SigninPage from '@views/signin_page'
+import NotFoundPage from '@views/notfound_page'
+import TrackingPage from '@views/track_page'
+import SignupPage from '@views/signup_page'
+import DashboardPage from '@views/dashboard_page'
+import LayoutPage from '@views/layout_page';
+import HistoryPage from '@views/history_page'
+import SettingsPage from '@views/settings_page'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

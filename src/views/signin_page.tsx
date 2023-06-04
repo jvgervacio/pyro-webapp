@@ -3,8 +3,7 @@ import { Form, Link, useNavigate } from "react-router-dom";
 import {signInWithEmailAndPassword, getAuth} from 'firebase/auth';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
-import { authActions } from "store/features/auth-slice";
-
+import { authActions } from "@store/features/auth-slice";
 
 const SigninPage: React.FC = () => {
   const [email, setEmail] = useState("");

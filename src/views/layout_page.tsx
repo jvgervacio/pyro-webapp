@@ -1,4 +1,4 @@
-import {MainTemplate} from '../components/template';
+import {MainTemplate} from '@components/template';
 
 const LayoutPage: React.FC = () => {
   return (

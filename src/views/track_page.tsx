@@ -1,14 +1,11 @@
 import React from "react";
-import Navbar from "../components/navbar";
-import { Link } from "react-router-dom";
-import Map, { Marker, ScaleControl, FullscreenControl, ViewState} from "react-map-gl";
+import Map, { FullscreenControl, ViewState} from "react-map-gl";
 import { useState, useEffect } from "react";
-import { getFirestore, GeoPoint, onSnapshot, collection, } from 'firebase/firestore';
+import { getFirestore, onSnapshot, collection, } from 'firebase/firestore';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Lottie from 'lottie-react'
-import { Establishment } from "../utils/utility_types";
-import EstablishmentMarker from "../components/establishment_marker";
-import { HomeTemplate } from "../components/template";
+import { Establishment } from "@utils/utility_types";
+import EstablishmentMarker from "@components/establishment_marker";
+import { HomeTemplate } from "@components/template";
 
 const TrackingPage: React.FC = () => {
   const initialViewState: ViewState = {

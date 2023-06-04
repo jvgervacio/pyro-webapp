@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from '../components/navbar';
 import { Link } from 'react-router-dom';
 
 const NotFoundPage: React.FC = () => {

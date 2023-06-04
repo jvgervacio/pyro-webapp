@@ -1,10 +1,6 @@
 import React from 'react';
-import Navbar from '../components/navbar';
-import { Link } from 'react-router-dom';
 import { HomeTemplate } from '../components/template';
 import buildingImage from '../assets/images/building.png';
-
-
 
 const HomePage: React.FC = () => {
   return (
@@ -25,8 +21,6 @@ const HomePage: React.FC = () => {
       <footer className='absolute bottom-0 w-full flex justify-center p-5 z-10'>
         <p className='text-sm text-gray-400 animate-fade-in'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
       </footer>
-
-
     </HomeTemplate>
   );
 };
