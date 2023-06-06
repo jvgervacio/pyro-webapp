@@ -6,7 +6,10 @@ const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
         map: mapSlice.reducer,
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+    }),
 });
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

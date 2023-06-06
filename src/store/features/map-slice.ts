@@ -13,7 +13,7 @@ const mapSlice = createSlice({
             bearing: 0,
             padding: {top: 0, bottom: 0, left: 0, right: 0}
         } as ViewState,
-        establishments: [] as Array<Establishment>,
+        establishments: [] as Establishment[],
       },
     reducers: {
         setViewState(state, action) {

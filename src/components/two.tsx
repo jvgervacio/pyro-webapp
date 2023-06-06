@@ -6,7 +6,7 @@ import mysvg from '@assets/dxf/test.svg';
 interface Props {
   className: string;
 }
- 
+
 function TwoWrapper(props: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [two, setTwo] = useState<Two>();
@@ -17,7 +17,7 @@ function TwoWrapper(props: Props) {
     const container = containerRef.current;
 
     if (!two) return setTwo(new Two({ width: container.scrollWidth, height: container.scrollHeight }));
-
+    
     const zui = initZUI(two);
     renderSketch(two, zui);
     two.play();
@@ -31,6 +31,7 @@ function TwoWrapper(props: Props) {
   }, [two]);
   return <div ref={containerRef} {...props} />
 }
+
 
 function renderSketch(two: Two, zui: ZUI) {
   // draw

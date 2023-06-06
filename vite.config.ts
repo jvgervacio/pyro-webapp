@@ -13,6 +13,7 @@ export default defineConfig({
       '@utils': resolve(__dirname, './src/utils'),
       '@assets': resolve(__dirname, './src/assets'),
       '@styles': resolve(__dirname, './src/styles'),
+      '@services': resolve(__dirname, './src/services'),
     },
   },
   
