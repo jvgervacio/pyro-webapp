@@ -21,8 +21,8 @@ export const MainTemplate: React.FC<{children?: ReactNode, title: string, classN
 
 export const HomeTemplate: React.FC<{children?: ReactNode, className?: string}> = (props) => {
   return (
-    <div className={props.className}>
-      <Navbar className='fixed z-10 flex justify-center w-screen p-2 animate-fade-in'/>
+    <div className={"flex justify-center w-screen bg-repeat bg-cell relative h-full "+props.className}>
+      <Navbar className='absolute z-10 flex justify-center w-full animate-fade-in'/>
       {props.children}
     </div>
   );

@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <div className="z-[-1] w-full h-full fixed bg-opacity-10 bg-contain backdrop-blur-[100px]" />
+        <div className="w-full h-full overflow-auto" />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/signin' element={<SigninPage />} />

@@ -1,4 +1,4 @@
-import { Marker, Popup,  } from "react-map-gl";
+import { Marker, Popup, } from "react-map-gl";
 import { Establishment } from "@utils/utility_types";
 //@ts-ignore
 import flameLottie from '@assets/lottie/flame.json';
@@ -8,19 +8,19 @@ import Lottie from "lottie-react";
 const EstablishmentMarker = (props: { establishment: Establishment, size: number }) => {
     const { establishment, size } = props;
     const { location } = establishment;
-    
+
     return (
         <Marker
             key={establishment.id}
             longitude={location.longitude}
             latitude={location.latitude}
             onClick={(e) => {
-                
+
             }}
             offset={[-size / 2, -size / 2]}
-            
-        >   
-            <div className={`absolute w-[${size}] h-[${size}]`}>
+
+        >
+            <div className={`absolute`} style={{ width: size, height: size }}>
                 <Lottie alt="pulse icon"
                     animationData={pulseLottie}
                     autoPlay={true}

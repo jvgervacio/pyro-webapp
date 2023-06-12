@@ -20,32 +20,30 @@ const TrackingPage: React.FC = () => {
   const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
 
   firebase.firestore.onSnapshotCollection("user_data", (snapshot) => {
-      var updated_list: Establishment[] = [];
+    var updated_list: Establishment[] = [];
 
-      snapshot.forEach((doc) => {
-        var data = doc.data()
-        updated_list.push({
-          id: doc.id,
-          location: data.location,
-          status: data.status_level
-        });
-
+    snapshot.forEach((doc) => {
+      var data = doc.data()
+      updated_list.push({
+        id: doc.id,
+        location: data.location,
+        status: data.status_level
       });
-      dispatch(mapSliceActions.setEstablishments(updated_list));
+
+    });
+    dispatch(mapSliceActions.setEstablishments(updated_list));
   });
 
   return (
-    <HomeTemplate className='flex justify-center w-screen h-screen bg-repeat bg-cell'>
-      <section className="flex items-center w-full h-full max-w-screen-xl pt-20 pb-16 animate-fade-in">
-        <div className="w-full h-full bg-transparent shadow rounded-3xl overflow-clip shadow-slate-900 c">
+    <HomeTemplate className=''>
+      <div className="w-screen h-screen">
+        <div className="w-full h-full bg-black shadow rounded-3xl overflow-clip shadow-slate-900 ">
 
           <Map
             initialViewState={viewstate}
-
             // longitude={initialViewState.longitude}
             // latitude={initialViewState.latitude}
             pitch={viewstate.pitch}
-
             mapStyle="mapbox://styles/jvgervacio120490/clfwy7lf5003001rwivsiq3ck"
             mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
             minZoom={3}
@@ -56,7 +54,7 @@ const TrackingPage: React.FC = () => {
             attributionControl={false}
           >
             <FullscreenControl style={{ backgroundColor: "transparent", color: "white", fill: "white" }} />
-              // make a border circle that will be the marker and pulsatate it
+
             {
               // loop through the establishments and create a marker for each with different key
               establishments.map((establishment) => {
@@ -70,12 +68,12 @@ const TrackingPage: React.FC = () => {
             }
 
           </Map>
+          <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 place-self-center '>
+            <p className='text-sm text-gray-400'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
+          </footer>
         </div>
 
-      </section>
-      <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5'>
-        <p className='text-sm text-gray-400'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
-      </footer>
+      </div>
     </HomeTemplate>
   );
 };
