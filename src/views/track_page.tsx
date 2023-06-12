@@ -52,8 +52,9 @@ const TrackingPage: React.FC = () => {
             onMove={(e) => { setViewState(e.viewState) }}
             onClick={(e) => { console.log(e.lngLat) }}
             attributionControl={false}
+            
           >
-            <FullscreenControl style={{ backgroundColor: "transparent", color: "white", fill: "white" }} />
+            {/* <FullscreenControl style={{ backgroundColor: "transparent", color: "white", fill: "white" }} /> */}
 
             {
               // loop through the establishments and create a marker for each with different key
@@ -68,7 +69,7 @@ const TrackingPage: React.FC = () => {
             }
 
           </Map>
-          <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 place-self-center '>
+          <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 place-self-center text-center'>
             <p className='text-sm text-gray-400'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
           </footer>
         </div>
