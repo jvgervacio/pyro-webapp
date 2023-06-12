@@ -15,9 +15,9 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const isShowing = useSelector((state: RootState) => state.nav.isShowing, (prev, next) => prev === next);
-  const onClick: MouseEventHandler = (e) => {
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged, (prev, next) => prev === next);
+  const toggleMenu: MouseEventHandler = (e) => {
     dispatch(navmenuActions.toggle())
-    console.log(isShowing)
   }
 
 
@@ -43,6 +43,7 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
                   }
                   to={item.link}
                   replace={true}
+
                 >
 
                   {item.title}
@@ -52,12 +53,17 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
           </section>
 
         </div>
-        <button className="text-4xl text-orange_peel sm:hidden" onClick={onClick}>
+        <button className="text-4xl text-orange_peel sm:hidden" onClick={toggleMenu}>
           <GiHamburgerMenu />
         </button>
         <div className="sm: items-center hidden gap-5 sm:flex overflow-auto">
-          <Link className="text-slate-300 hover:text-slate-200 min-w-fit" to="/signin">Sign in</Link>
-          <Link className="button w-auto" to="/signup">Sign up</Link>
+          {
+            isLogged ? <Link className="button w-auto" to="/dashboard">Dashboard</Link> :
+              <>
+                <Link className="text-slate-300 hover:text-slate-200 min-w-fit" to="/signin">Sign in</Link>
+                <Link className="button w-auto" to="/signup">Sign up</Link>
+              </>
+          }
         </div>
 
 
@@ -85,10 +91,15 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
             }
             <br className=""></br>
             <div className="flex flex-col items-center w-full gap-10 px-10">
-              <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signin">Sign in</Link>
-              <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signup">Sign up</Link>
+              {
+                isLogged ? <Link className="text-3xl text-slate-300 hover:text-slate-200 underline underline-offset-8" to="/dashboard">Go to Dashboard</Link> :
+                  <>
+                    <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signin" onClick={toggleMenu}>Sign in</Link>
+                    <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signup" onClick={toggleMenu}>Sign up</Link>
+                  </>
+              }
             </div>
-            <button className="absolute right-5 top-5 text-orange_peel" onClick={onClick}><MdClose className="text-5xl border-solid rounded-full border-1 border-orange_peel" /></button>
+            <button className="absolute right-5 top-5 text-orange_peel" onClick={toggleMenu}><MdClose className="text-5xl border-solid rounded-full border-1 border-orange_peel" /></button>
           </section>
           : <></>
       }

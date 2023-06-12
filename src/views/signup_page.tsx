@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import firebase from "@services/firebase_api";
 import { AuthErrorCodes } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
+import { FormCardTemplate } from "@/components/template";
 
 const SignupPage: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -17,60 +18,56 @@ const SignupPage: React.FC = () => {
             return alert("Please fill up all fields");
         if (password !== confirmpass)
             return alert("Passwords do not match");
-        try{
-             await firebase.auth.createUser(email, password);
-             console.log("success");
-             navigate("/signin", { replace: true });
-        }catch(error){
-            if (error instanceof FirebaseError){
-                if(error.code === AuthErrorCodes.EMAIL_EXISTS){
+        try {
+            await firebase.auth.createUser(email, password);
+            console.log("success");
+            navigate("/signin", { replace: true });
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
                     return alert("Email already exists");
                 }
-                else if(error.code === AuthErrorCodes.INVALID_EMAIL){
+                else if (error.code === AuthErrorCodes.INVALID_EMAIL) {
                     return alert("Invalid email");
                 }
-                else if(error.code === AuthErrorCodes.WEAK_PASSWORD){
+                else if (error.code === AuthErrorCodes.WEAK_PASSWORD) {
                     return alert("Password should be at least 6 characters");
                 }
-                
+
             }
         }
     }
     return (
-        <div className='grid w-full h-screen bg-repeat place-items-center bg-cell'>
-            <div className='flex flex-col items-center content-center w-[400px] gap-5 -translate-y-10'>
-                <h1 className='text-3xl font-bold uppercase font-montserrat animate-slidein'>Create an account</h1>
-                <div className="w-full px-8 py-8 rounded-md shadow-sm bg-gradient-to-tr from-slate-800 to-slate-900 shadow-slate-500 animate-slidein">
-                    <div className="w-full mb-4">
-                        <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Full Name</label>
-                        <input className="w-full textfield" id="fullname" type="text" placeholder="Juan Dela Cruz" onChange={(e) => setFullName(e.target.value)} />
-                    </div>
-                    <div className="w-full mb-4">
-                        <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="email address">Email address</label>
-                        <input className="w-full textfield" id="email address" type="email" placeholder="user@example.com" onChange={(e) => setEmail(e.target.value)} />
-                    </div>
+        <FormCardTemplate title="sign up for an account">
+            <div>
+                <div className="w-full mb-4">
+                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Full Name</label>
+                    <input className="w-full textfield" id="fullname" type="text" placeholder="Juan Dela Cruz" onChange={(e) => setFullName(e.target.value)} />
+                </div>
+                <div className="w-full mb-4">
+                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="email address">Email address</label>
+                    <input className="w-full textfield" id="email address" type="email" placeholder="user@example.com" onChange={(e) => setEmail(e.target.value)} />
+                </div>
 
-                    <div className="w-full mb-4">
-                        <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="password">Password</label>
-                        <input className="w-full textfield" id="password" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div className="w-full mb-10">
-                        <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="password">Confirm Password</label>
-                        <input className="w-full textfield" id="confirm" type="password" placeholder="Confirm Password" onChange={(e) => setConfirmPass(e.target.value)} />
-                    </div>
-                    <div className="mt-6 mb-6">
-                        <button className="w-full mb-3 button" type="button" onClick={signup}>Sign Up</button>
-                        <p className="text-center">
-                            Already have an account?{" "}
-                            <button className="italic underline underline-offset-4 hover:text-slate-100" onClick={() => navigate('/signin', { replace: true })}>
-                                Sign in here
-                            </button>
-                        </p>
-                    </div>
-
+                <div className="w-full mb-4">
+                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="password">Password</label>
+                    <input className="w-full textfield" id="password" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div className="w-full">
+                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="password">Confirm Password</label>
+                    <input className="w-full textfield" id="confirm" type="password" placeholder="Confirm Password" onChange={(e) => setConfirmPass(e.target.value)} />
                 </div>
             </div>
-        </div>
+            <div className="mt-6 mb-6">
+                <button className="w-full mb-3 button py-3" type="button" onClick={signup}>Sign Up</button>
+                <p className="text-center">
+                    Already have an account?{" "}
+                    <button className="italic underline underline-offset-4 hover:text-slate-100" onClick={() => navigate('/signin', { replace: true })}>
+                        Sign in here
+                    </button>
+                </p>
+            </div>
+        </FormCardTemplate>
     );
 };
 
