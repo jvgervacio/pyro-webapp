@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import firebase from "@services/firebase_api";
-import { AuthErrorCodes } from "firebase/auth";
+import { AuthErrorCodes, fetchSignInMethodsForEmail } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { FormCardTemplate } from "@/components/template";
+import "react-step-progress-bar/styles.css";
+import { ProgressBar, Step, } from 'react-step-progress-bar'
+import { Establishment } from '@utils/utility_types';
 
 const SignupPage: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -39,15 +42,20 @@ const SignupPage: React.FC = () => {
     }
     return (
         <FormCardTemplate title="sign up for an account">
+
             <div>
                 <div className="w-full mb-4">
-                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Full Name</label>
-                    <input className="w-full textfield" id="fullname" type="text" placeholder="Juan Dela Cruz" onChange={(e) => setFullName(e.target.value)} />
+                    <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Establishment Name</label>
+                    <input className="w-full textfield" id="fullname" type="text" placeholder="Establishment, Inc." onChange={(e) => setFullName(e.target.value)} />
                 </div>
+
+
                 <div className="w-full mb-4">
                     <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="email address">Email address</label>
                     <input className="w-full textfield" id="email address" type="email" placeholder="user@example.com" onChange={(e) => setEmail(e.target.value)} />
                 </div>
+
+
 
                 <div className="w-full mb-4">
                     <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="password">Password</label>
@@ -68,6 +76,13 @@ const SignupPage: React.FC = () => {
                 </p>
             </div>
         </FormCardTemplate>
+    );
+};
+
+
+const Login: React.FC = () => {
+    return (
+        <div></div>
     );
 };
 

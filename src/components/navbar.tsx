@@ -5,6 +5,7 @@ import { GiCrossMark, GiHamburger, GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom"
+
 const Navbar: React.FC<{ className?: string }> = (props) => {
   const nav_items = [
     { link: '/', title: "Home" },
@@ -19,7 +20,6 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
   const toggleMenu: MouseEventHandler = (e) => {
     dispatch(navmenuActions.toggle())
   }
-
 
   return (
     <div className={props.className}>

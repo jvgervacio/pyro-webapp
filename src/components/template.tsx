@@ -32,15 +32,15 @@ export const HomeTemplate: React.FC<{ children?: ReactNode, className?: string }
 
 export const FormCardTemplate: React.FC<{ children?: ReactNode, className?: string, title: string, gap?: number }> = (props) => {
   return (
-    <div className={"grid w-full h-screen bg-repeat place-items-center bg-cell " + props.className}>
+    <div className={"grid w-full h-screen place-items-center " + props.className}>
       <div className="flex flex-col items-center content-center w-[500px] gap-5 -translate-y-10">
-        <h1 className="text-3xl font-bold uppercase font-montserrat animate-slidein">
-          {props.title}
+        <h1 className="text-4xl font-bold uppercase font-montserrat animate-slidein text-orange_peel">
+          PYRO
         </h1>
-        <div className={"flex flex-col w-[400px] px-8 py-10 bg-gradient-to-tr from-slate-800 to-slate-900 rounded-lg shadow-sm shadow-slate-500 font-work-sans animate-slidein justify-stretch gap-5 "}>
+        <div className={"flex flex-col w-[350px] gap-5 animate-slidein"}>
           {props.children}
         </div>
-        <Link className="text-sm text-center animate-slidein  flex items-center gap-1" to="/"><MdArrowBack /> Go to Homepage</Link>
+        <Link className="text-sm text-center animate-slidein  flex items-center gap-1 " to="/"><MdArrowBack /> Go to Homepage</Link>
       </div>
 
     </div>
