@@ -16,7 +16,7 @@ const TrackingPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const viewstate = useSelector((state: RootState) => state.map.viewstate);
   const establishments = useSelector((state: RootState) => state.map.establishments);
-
+  
   const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
 
   firebase.firestore.onSnapshotCollection("user_data", (snapshot) => {

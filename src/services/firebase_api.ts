@@ -1,8 +1,8 @@
 // singleton firebase api service
 import { initializeApp } from 'firebase/app';
 import { Auth, Unsubscribe, User, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc} from 'firebase/firestore';
-import { FirebaseStorage, UploadMetadata, UploadResult, getDownloadURL, getStorage, ref, uploadBytes} from 'firebase/storage';
+import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc } from 'firebase/firestore';
+import { FirebaseStorage, UploadMetadata, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import firebase from '@services/firebase_api';
 import defaultProfileImage from '@assets/images/default.png';
 const firebaseConfig = {
@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 class FirebaseAPI {
     private static instance: FirebaseAPI;
-    
+
     private constructor() {
         initializeApp(firebaseConfig);
     }
@@ -43,10 +43,10 @@ class FirebaseAPI {
     }
 }
 
-class AuthAPI{
+class AuthAPI {
     private static instance: AuthAPI;
     private constructor() {
-        
+
     }
     public static getInstance(): AuthAPI {
         if (!AuthAPI.instance) {
@@ -54,18 +54,18 @@ class AuthAPI{
         }
         return AuthAPI.instance;
     }
-    
+
     public get auth(): Auth {
         return getAuth();
     }
 
-    public async createUser(email: string, password: string): Promise<User> {
+    public async createUser(email: string, password: string, data: DocumentData): Promise<User> {
         const user = (await createUserWithEmailAndPassword(this.auth, email, password)).user;
         // read default image png from asset images
         const defaultImage = await fetch(defaultProfileImage);
         const blobFile = await defaultImage.blob();
-        await firebase.storage.uploadFileToStorage(`user_data/${user.uid}`, {name: 'profile.png', blob: blobFile});
-        await firebase.firestore.setDocument('users', user.uid, {});
+        await firebase.storage.uploadFileToStorage(`user_data/${user.uid}`, { name: 'profile.png', blob: blobFile });
+        await firebase.firestore.setDocument('users', user.uid, data);
         return user;
     }
 
@@ -86,7 +86,7 @@ class AuthAPI{
     }
 }
 
-class StorageAPI{
+class StorageAPI {
     private static instance: StorageAPI;
     private constructor() {
         getStorage();
@@ -97,7 +97,7 @@ class StorageAPI{
         }
         return StorageAPI.instance;
     }
-    
+
     public get storage(): FirebaseStorage {
         return getStorage();
     }
@@ -106,16 +106,16 @@ class StorageAPI{
         return getDownloadURL(ref(this.storage, path));
     }
 
-    public async uploadFileToStorage(path: string, file: {name: string, blob: Blob}): Promise<UploadResult> {
+    public async uploadFileToStorage(path: string, file: { name: string, blob: Blob }): Promise<UploadResult> {
         return uploadBytes(ref(this.storage, `${path}/${file.name}`), file.blob);
     }
-    
+
     public async deleteFileFromStorage(path: string): Promise<void> {
         return;
     }
 
 }
-class FirestoreAPI{
+class FirestoreAPI {
     private static instance: FirestoreAPI;
     private constructor() {
         getFirestore();
@@ -126,15 +126,15 @@ class FirestoreAPI{
         }
         return FirestoreAPI.instance;
     }
-    
+
     public get firestore(): Firestore {
         return getFirestore();
     }
 
     public onSnapshotCollection(collection_name: string, callback: (snapshot: QuerySnapshot<DocumentData>) => void): Unsubscribe {
-       return onSnapshot(collection(this.firestore, collection_name), callback);
+        return onSnapshot(collection(this.firestore, collection_name), callback);
     }
-    
+
     public async setDocument(collection_name: string, document_id: string, data: DocumentData): Promise<void> {
         return setDoc(doc(this.firestore, `${collection_name}/${document_id}`), data);
     }
