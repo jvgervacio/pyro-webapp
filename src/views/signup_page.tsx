@@ -4,8 +4,6 @@ import firebase from "@services/firebase_api";
 import { AuthErrorCodes, fetchSignInMethodsForEmail } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { FormCardTemplate } from "@/components/template";
-import "react-step-progress-bar/styles.css";
-import { ProgressBar, Step, } from 'react-step-progress-bar'
 import { Establishment } from '@utils/utility_types';
 import Map, { ViewState, Marker } from "react-map-gl";
 import { MapboxMarker } from "react-map-gl/dist/esm/types";
@@ -15,6 +13,7 @@ import { GeoPoint } from "firebase/firestore";
 const SignupPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [location, setLocation] = useState<GeoPoint | null>(null);
     const [confirmpass, setConfirmPass] = useState("");
     const [establishmentName, setEstablishmentName] = useState("");
     const [success, setSuccess] = useState(false);
@@ -31,14 +30,14 @@ const SignupPage: React.FC = () => {
     const navigate = useNavigate();
 
     const signup = async () => {
-        if (email === "" || password === "" || confirmpass === "" || establishmentName === "")
+        if (email === "" || password === "" || confirmpass === "" || establishmentName === "" || location === null)
             return alert("Please fill up all fields");
         if (password !== confirmpass)
             return alert("Passwords do not match");
         try {
             await firebase.auth.createUser(email, password, {
                 establishment_name: establishmentName,
-                location: new GeoPoint(viewstate.latitude, viewstate.longitude),
+                location: location,
                 status_level: 0,
             });
             console.log("success");
@@ -58,6 +57,8 @@ const SignupPage: React.FC = () => {
             }
         }
     }
+
+       
     return (
         <>
             {
@@ -79,7 +80,10 @@ const SignupPage: React.FC = () => {
                             scrollZoom={true}
 
                         >
-                            <MdClose className="absolute text-4xl right-2 top-2 cursor-pointer hover:text-red_crayola" onClick={(e) => setShowMap(false)}></MdClose>
+                            <MdClose className="absolute text-4xl cursor-pointer right-2 top-2 hover:text-red_crayola" onClick={(e) => {
+                                setShowMap(false);
+                                setLocation(new GeoPoint(viewstate.latitude, viewstate.longitude));
+                            }}></MdClose>
 
                             <Marker longitude={viewstate.longitude} latitude={viewstate.latitude} offset={[2.5, 2.5]}>
                                 <div className="w-5 h-5 bg-red-500 rounded-full"></div>
@@ -96,9 +100,12 @@ const SignupPage: React.FC = () => {
                 <div>
                     <div className="w-full mb-4">
                         <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Establishment Name</label>
-                        <input className="w-full textfield" id="fullname" type="text" placeholder="Establishment, Inc." onChange={(e) => setEstablishmentName(e.target.value)} />
+                        <input className="w-full textfield" id="establishment_name" type="text" placeholder="Establishment, Inc." onChange={(e) => setEstablishmentName(e.target.value)} />
                     </div>
-
+                    <div className="w-full mb-4">
+                        <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="name">Geolocation</label>
+                        <input className="w-full textfield" id="geolocation" type="text" placeholder="Latitude, Longitude" onClick={(e)=>setShowMap(true)} value={location ? `${location.longitude}, ${location.latitude}` : ""}/>
+                    </div>
 
                     <div className="w-full mb-4">
                         <label className="block mb-2 text-sm font-medium text-slate-300" htmlFor="email address">Email address</label>
@@ -117,7 +124,7 @@ const SignupPage: React.FC = () => {
                     </div>
                 </div>
                 <div className="mt-6 mb-6">
-                    <button className="w-full mb-3 button py-3" type="button" onClick={signup}>Sign Up</button>
+                    <button className="w-full py-3 mb-3 button" type="button" onClick={signup}>Sign Up</button>
                     <p className="text-center">
                         Already have an account?{" "}
                         <button className="italic underline underline-offset-4 hover:text-slate-100" onClick={() => navigate('/signin', { replace: true })}>
