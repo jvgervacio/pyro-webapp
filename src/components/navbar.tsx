@@ -5,7 +5,7 @@ import { GiCrossMark, GiHamburger, GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom"
-
+import logosvg from '../assets/svg/logo.svg';
 const Navbar: React.FC<{ className?: string }> = (props) => {
   const nav_items = [
     { link: '/', title: "Home" },
@@ -23,10 +23,11 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
 
   return (
     <div className={props.className}>
-      <nav className="relative flex items-center justify-between max-w-screen-xl px-5 py-3 w-full overflow-clip">
-        <div className="flex items-center gap-20">
-          <section className="logo">
-            <a className="text-3xl font-bold tracking-widest font-montserrat text-orange_peel">
+      <nav className="relative flex items-center justify-between w-full max-w-screen-xl px-5 py-3 overflow-clip">
+        <div className="flex items-center gap-10">
+          <section className="flex items-center justify-center gap-1 align-middle logo">
+            <img src={logosvg} alt="logo" className="h-[70px] w-full p-3" />
+            <a className="text-2xl font-bold tracking-widest font-montserrat text-orange_peel">
               PYRO
             </a>
           </section>
@@ -56,12 +57,12 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
         <button className="text-4xl text-orange_peel sm:hidden" onClick={toggleMenu}>
           <GiHamburgerMenu />
         </button>
-        <div className="sm: items-center hidden gap-5 sm:flex overflow-auto">
+        <div className="items-center hidden gap-5 overflow-auto sm: sm:flex">
           {
-            isLogged ? <Link className="button w-auto" to="/dashboard">Dashboard</Link> :
+            isLogged ? <Link className="w-auto button" to="/dashboard">Dashboard</Link> :
               <>
                 <Link className="text-slate-300 hover:text-slate-200 min-w-fit" to="/signin">Sign in</Link>
-                <Link className="button w-auto" to="/signup">Sign up</Link>
+                <Link className="w-auto button" to="/signup">Sign up</Link>
               </>
           }
         </div>
@@ -77,7 +78,7 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
                 <NavLink key={index}
                   className={
                     ({ isActive }) =>
-                      isActive ?
+                      isActive ?  
                         "text-orange_peel " :
                         "text-slate-400 hover:text-slate-300 text-center"
                   }
@@ -92,7 +93,7 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
             <br className=""></br>
             <div className="flex flex-col items-center w-full gap-10 px-10">
               {
-                isLogged ? <Link className="text-3xl text-slate-300 hover:text-slate-200 underline underline-offset-8" to="/dashboard">Go to Dashboard</Link> :
+                isLogged ? <Link className="text-3xl underline text-slate-300 hover:text-slate-200 underline-offset-8" to="/dashboard">Go to Dashboard</Link> :
                   <>
                     <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signin" onClick={toggleMenu}>Sign in</Link>
                     <Link className="text-3xl text-slate-300 hover:text-slate-200" to="/signup" onClick={toggleMenu}>Sign up</Link>

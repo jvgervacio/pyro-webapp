@@ -10,6 +10,7 @@ import { MapboxMarker } from "react-map-gl/dist/esm/types";
 import { MdClose } from "react-icons/md";
 import { GeoPoint } from "firebase/firestore";
 
+
 const SignupPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

@@ -3,10 +3,11 @@ import Sidebar from '@components/sidebar';
 import Topbar from '@components/topbar';
 import Navbar from '@components/navbar';
 import { Link } from 'react-router-dom';
+import logosvg from '@assets/svg/logo.svg';
 import { MdArrowBack, MdForkLeft, MdTurnLeft } from 'react-icons/md';
 export const MainTemplate: React.FC<{ children?: ReactNode, title: string, className?: string }> = (props) => {
   return (
-    <div className={'w-screen h-screen inline-flex bg-cell bg-repeat' + props.className}>
+    <div className={'w-screen h-screen inline-flex' + props.className}>
       {/* Sidebar */}
       <Sidebar className='' />
       {/* Main content */}
@@ -34,13 +35,14 @@ export const FormCardTemplate: React.FC<{ children?: ReactNode, className?: stri
   return (
     <div className={"grid w-full h-screen place-items-center " + props.className}>
       <div className="flex flex-col items-center content-center w-[500px] gap-5 -translate-y-10">
-        <h1 className="text-4xl font-bold uppercase font-montserrat animate-slidein text-orange_peel">
-          PYRO
+        <img src={logosvg} alt="logo" className="h-[100px] w-full p-3 animate-slidein" />
+        <h1 className="text-3xl font-bold text-center uppercase font-montserrat animate-slidein text-orange_peel">
+          {props.title}
         </h1>
         <div className={"flex flex-col w-[350px] gap-5 animate-slidein"}>
           {props.children}
         </div>
-        <Link className="text-sm text-center animate-slidein  flex items-center gap-1 " to="/"><MdArrowBack /> Go to Homepage</Link>
+        <Link className="flex items-center gap-1 text-sm text-center animate-slidein " to="/"><MdArrowBack /> Go to Homepage</Link>
       </div>
 
     </div>
