@@ -1,6 +1,6 @@
 import React from "react";
 import Map, { FullscreenControl, ViewState } from "react-map-gl";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Establishment } from "@utils/utility_types";
@@ -15,24 +15,26 @@ import firebase from "@services/firebase_api"
 const TrackingPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const viewstate = useSelector((state: RootState) => state.map.viewstate);
-  const establishments = useSelector((state: RootState) => state.map.establishments);
+  const [establishments, setEstablishments] = useState<Establishment[]>([]);
   
   const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
 
-  firebase.firestore.onSnapshotCollection("user_data", (snapshot) => {
-    var updated_list: Establishment[] = [];
-
-    snapshot.forEach((doc) => {
-      var data = doc.data()
-      updated_list.push({
-        id: doc.id,
-        location: data.location,
-        status: data.status_level
+  useEffect(() => {
+    firebase.firestore.onSnapshotCollection("users", (snapshot) => {
+      var updated_list: Establishment[] = [];
+  
+      snapshot.forEach((doc) => {
+        var data = doc.data()
+        updated_list.push({
+          id: doc.id,
+          location: data.location,
+          status: data.triggered
+        });
+       setEstablishments(updated_list);
       });
-
+      
     });
-    dispatch(mapSliceActions.setEstablishments(updated_list));
-  });
+  }, []);
 
   return (
     <HomeTemplate className=''>
@@ -69,7 +71,7 @@ const TrackingPage: React.FC = () => {
             }
 
           </Map>
-          <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 place-self-center text-center'>
+          <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 text-center place-self-center'>
             <p className='text-sm text-gray-400'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
           </footer>
         </div>

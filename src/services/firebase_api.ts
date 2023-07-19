@@ -1,7 +1,7 @@
 // singleton firebase api service
 import { initializeApp } from 'firebase/app';
 import { Auth, Unsubscribe, User, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc } from 'firebase/firestore';
+import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc, query, where, limit, getDoc } from 'firebase/firestore';
 import { FirebaseStorage, UploadMetadata, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import firebase from '@services/firebase_api';
 import defaultProfileImage from '@assets/images/default.png';
@@ -133,6 +133,10 @@ class FirestoreAPI {
 
     public onSnapshotCollection(collection_name: string, callback: (snapshot: QuerySnapshot<DocumentData>) => void): Unsubscribe {
         return onSnapshot(collection(this.firestore, collection_name), callback);
+    }
+
+    public onSnapshotDocument(collection_name: string, document_id: string, callback: (snapshot: QuerySnapshot<DocumentData>) => void): Unsubscribe {
+        return onSnapshot(query(collection(this.firestore, collection_name), where('__name__', "==", document_id), limit(1)), callback);
     }
 
     public async setDocument(collection_name: string, document_id: string, data: DocumentData): Promise<void> {

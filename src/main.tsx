@@ -16,12 +16,12 @@ import DashboardPage from '@views/dashboard_page'
 import LayoutPage from '@views/layout_page';
 import HistoryPage from '@views/history_page'
 import SettingsPage from '@views/settings_page'
+import AboutUsPage from './views/aboutus_page'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <div className="w-full h-full overflow-auto" />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/signin' element={<SigninPage />} />
@@ -31,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path='/layout' element={<LayoutPage />} />
           <Route path='/history' element={<HistoryPage />} />
           <Route path='/settings' element={<SettingsPage />} />
+          <Route path='/about' element={<AboutUsPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
