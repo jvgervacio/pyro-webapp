@@ -81,15 +81,15 @@ const DashboardPage: React.FC = () => {
                   {
                     sensors.map((item, index) => {
 
-                      return <tr key={index} className='h-10 text-center border-slate-700 border-y hover:bg-slate-800'>
+                      return <tr key={index} className='h-10 text-center border-slate-700 border-y hover:bg-slate-800 cursor-pointer'>
                         <td className='px-5'>{
-                          item[1].alert_level == 0 ? 
-                          <div className='text-green-500 border border-green-500 rounded-full'>Neutral</div> : 
-                          item[1].alert_level == 1 ? 
-                          <div className='text-yellow-500 border border-yellow-500 rounded-full'>Low</div> : 
-                          item[1].alert_level == 2 ? 
-                          <div className='text-orange-500 border border-orange-500 rounded-full'>Moderate</div> : 
-                          <div className='text-red-500 border border-red-500 rounded-full'>Extreme</div> 
+                          item[1].alert_level == "IDLE" ? 
+                          <div className='text-green-500 border border-green-500 rounded-full'>IDLE</div> : 
+                          item[1].alert_level == "LOW" ? 
+                          <div className='text-yellow-500 border border-yellow-500 rounded-full'>LOW</div> : 
+                          item[1].alert_level == "MEDIUM" ? 
+                          <div className='text-orange-500 border border-orange-500 rounded-full'>MEDIUM</div> : 
+                          <div className='text-red-500 border border-red-500 rounded-full'>HIGH</div> 
                         }</td>
                         <td>{item[0]}</td>
                         <td className='text-left'>{item[1].description}</td>
@@ -97,7 +97,6 @@ const DashboardPage: React.FC = () => {
                         <td>{item[1].floor}</td>
                         <td className='grid h-10 place-items-center'>{item[1].flame_sensor ? <AiFillFire className='text-2xl text-red-600'/> : <AiFillFire className='text-2xl text-slate-500'/>}</td>
                         <td>{item[1].smoke_sensor}</td>
-                        
                       </tr>
                     })
                     

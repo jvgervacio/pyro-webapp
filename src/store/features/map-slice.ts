@@ -9,7 +9,7 @@ const mapSlice = createSlice({
             longitude: 125.8094609394992,
             latitude:7.447115401399549,
             zoom: 13,
-            pitch: 100,
+            pitch: 25,
             bearing: 0,
             padding: {top: 0, bottom: 0, left: 0, right: 0}
         } as ViewState,

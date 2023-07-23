@@ -1,12 +1,18 @@
-import { GeoPoint } from "@firebase/firestore-types";
+
 export type Establishment = {
     id: string
     location: GeoPoint
-    status: number
+    status: "LOW" | "MEDIUM" | "HIGH" | "IDLE"
 }
 
+export type GeoPoint = {
+    latitude: number,
+    longitude: number
+}
+
+
 export type Sensor = {
-    alert_level: number,
+    alert_level: "LOW" | "MEDIUM" | "HIGH" | "IDLE",
     flame_sensor: boolean,
     smoke_sensor: number,
     triggered: boolean,

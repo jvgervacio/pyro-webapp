@@ -2,9 +2,10 @@
 import { initializeApp } from 'firebase/app';
 import { Auth, Unsubscribe, User, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc, query, where, limit, getDoc } from 'firebase/firestore';
-import { FirebaseStorage, UploadMetadata, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import firebase from '@services/firebase_api';
+import { FirebaseStorage, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { Database, getDatabase, onChildChanged, set, onValue, ref as db_ref, DataSnapshot} from 'firebase/database';
 import defaultProfileImage from '@assets/images/default.png';
+
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -13,7 +14,6 @@ const firebaseConfig = {
     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
-
 };
 
 class FirebaseAPI {
@@ -41,6 +41,11 @@ class FirebaseAPI {
     public get storage() {
         return StorageAPI.getInstance();
     }
+
+    public get database() {
+        return DatabaseAPI.getInstance();
+    }
+    
 }
 
 class AuthAPI {
@@ -64,8 +69,8 @@ class AuthAPI {
         // read default image png from asset images
         const defaultImage = await fetch(defaultProfileImage);
         const blobFile = await defaultImage.blob();
-        await firebase.storage.uploadFileToStorage(`user_data/${user.uid}`, { name: 'profile.png', blob: blobFile });
-        await firebase.firestore.setDocument('users', user.uid, data);
+        await FirebaseAPI.getInstance().storage.uploadFileToStorage(`user_data/${user.uid}`, { name: 'profile.png', blob: blobFile });
+        await FirebaseAPI.getInstance().firestore.setDocument('users', user.uid, data);
         return user;
     }
 
@@ -141,6 +146,36 @@ class FirestoreAPI {
 
     public async setDocument(collection_name: string, document_id: string, data: DocumentData): Promise<void> {
         return setDoc(doc(this.firestore, `${collection_name}/${document_id}`), data);
+    }
+
+}
+
+class DatabaseAPI {
+    private static instance: DatabaseAPI;
+    private constructor() {
+        getDatabase();
+    }
+    public static getInstance(): DatabaseAPI {
+        if (!DatabaseAPI.instance) {
+            DatabaseAPI.instance = new DatabaseAPI();
+        }
+        return DatabaseAPI.instance;
+    }
+
+    public get database(): Database {
+        return getDatabase();
+    }
+
+    public onValue(path: string, callback: (snapshot: DataSnapshot) => void): Unsubscribe {
+        return onValue(db_ref(this.database, path), callback);
+    }
+
+    public onChildChanged(path: string, callback: (snapshot: DataSnapshot) => void): Unsubscribe {
+        return onChildChanged(db_ref(this.database, path), callback);
+    }
+
+    public async setValue(path: string, value: any): Promise<void> {
+        return set(db_ref(this.database, path), value);
     }
 
 }

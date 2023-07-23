@@ -4,9 +4,7 @@ import firebase from "@services/firebase_api";
 import { AuthErrorCodes, fetchSignInMethodsForEmail } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { FormCardTemplate } from "@/components/template";
-import { Establishment } from '@utils/utility_types';
 import Map, { ViewState, Marker } from "react-map-gl";
-import { MapboxMarker } from "react-map-gl/dist/esm/types";
 import { MdClose } from "react-icons/md";
 import { GeoPoint } from "firebase/firestore";
 
@@ -62,6 +60,7 @@ const SignupPage: React.FC = () => {
        
     return (
         <>
+            
             {
                 showMap ?
                     <div className="absolute bg-slate-600 w-[80%] h-[90%] z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl overflow-clip">
@@ -79,7 +78,6 @@ const SignupPage: React.FC = () => {
                             attributionControl={false}
                             interactive={true}
                             scrollZoom={true}
-
                         >
                             <MdClose className="absolute text-4xl cursor-pointer right-2 top-2 hover:text-red_crayola" onClick={(e) => {
                                 setShowMap(false);
@@ -89,9 +87,6 @@ const SignupPage: React.FC = () => {
                             <Marker longitude={viewstate.longitude} latitude={viewstate.latitude} offset={[2.5, 2.5]}>
                                 <div className="w-5 h-5 bg-red-500 rounded-full"></div>
                             </Marker>
-
-
-
                         </Map>
                     </div>
                     : <></>

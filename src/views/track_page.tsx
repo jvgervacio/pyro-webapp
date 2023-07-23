@@ -13,26 +13,16 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import firebase from "@services/firebase_api"
 
 const TrackingPage: React.FC = () => {
+  const establishment:Establishment = {id: "1", location: {latitude: 7.447115401399549, longitude: 125.8094609394992}, status: "HIGH"}
   const dispatch = useDispatch<AppDispatch>();
   const viewstate = useSelector((state: RootState) => state.map.viewstate);
-  const [establishments, setEstablishments] = useState<Establishment[]>([]);
+  const [establishments, setEstablishments] = useState<Establishment[]>([establishment]);
   
   const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
 
   useEffect(() => {
-    firebase.firestore.onSnapshotCollection("users", (snapshot) => {
-      var updated_list: Establishment[] = [];
-  
-      snapshot.forEach((doc) => {
-        var data = doc.data()
-        updated_list.push({
-          id: doc.id,
-          location: data.location,
-          status: data.triggered
-        });
-       setEstablishments(updated_list);
-      });
-      
+    firebase.database.onChildChanged("/", (snapshot) => {
+      console.log(snapshot.val());
     });
   }, []);
 
@@ -50,7 +40,7 @@ const TrackingPage: React.FC = () => {
             mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
             minZoom={3}
             bearing={viewstate.bearing}
-            onZoom={(e) => { setViewState(e.viewState) }}
+            onZoom={(e) => {setViewState(e.viewState) }}
             onMove={(e) => { setViewState(e.viewState) }}
             onClick={(e) => { console.log(e.lngLat) }}
             attributionControl={false}
@@ -61,9 +51,8 @@ const TrackingPage: React.FC = () => {
             {
               // loop through the establishments and create a marker for each with different key
               establishments.map((establishment) => {
-
-                var size = viewstate.zoom * 5;
-                if (establishment.location === null || establishment.status == 0) return;
+                var size = viewstate.zoom * (establishment.status == "IDLE" ? 2:5);
+                if (establishment.location === null) return;
                 return (
                   <EstablishmentMarker key={`marker_${establishment.id}`} establishment={establishment} size={size} />
                 )

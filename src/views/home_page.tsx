@@ -17,14 +17,10 @@ const HomePage: React.FC = () => {
           <br />
           <p className='text-justify text-slate-100 xl:w-[700px]'>Ensure the safety of your property and people with our web-based real-time fire alarm system. Our advanced technology provides you with instant alerts and allows you to take action from anywhere, giving you peace of mind and the power to respond quickly in case of an emergency. </p>
         </section>
-
-
       </div>
       <footer className='absolute bottom-0 z-10 flex justify-center w-full p-5 '>
         <p className='text-sm text-center text-gray-400 animate-fade-in'>Copyright © 2023 UMTC Computer Engineering Students | All rights reserved.</p>
       </footer>
-
-
     </HomeTemplate>
   );
 };
