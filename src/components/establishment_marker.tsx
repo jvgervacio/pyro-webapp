@@ -83,12 +83,12 @@ const EstablishmentMarker = (props: { establishment: Establishment, size: number
                         offset={establishment.status == "IDLE" ? [0, size * -0.5] : [0, -size * 0.2]}
                         
                         
-                        className="p-5 text-black relative"
+                        className="relative p-5 text-black"
                     >
                         <MdClose className="absolute text-xs cursor-pointer right-1 top-1 hover:text-red_crayola" onClick={(e) => setShowPopup(false)}></MdClose>
                         <div className="mt-3 text-center">
-                            <h1 className="text-sm font-bold">ESTABLISHMENT NAME</h1>
-                            <h1 className="text-sm font-bold">ALERT LEVEL: HIGH</h1>
+                            <h1 className="text-xl font-bold">{establishment.establishment_name}</h1>
+                            <h1 className="text-sm font-bold">ALERT LEVEL: {establishment.status}</h1>
                         </div>
                     </Popup>
                     : <></>

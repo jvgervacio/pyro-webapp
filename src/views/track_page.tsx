@@ -11,19 +11,57 @@ import { AppDispatch, RootState } from "@/store/store";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import firebase from "@services/firebase_api"
+import AboutUsPage from './aboutus_page';
 
 const TrackingPage: React.FC = () => {
-  const establishment:Establishment = {id: "1", location: {latitude: 7.447115401399549, longitude: 125.8094609394992}, status: "HIGH"}
   const dispatch = useDispatch<AppDispatch>();
   const viewstate = useSelector((state: RootState) => state.map.viewstate);
-  const [establishments, setEstablishments] = useState<Establishment[]>([establishment]);
+  const [establishments, setEstablishments] = useState<Establishment[]>([]);
   
   const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
-
+  
   useEffect(() => {
-    firebase.database.onChildChanged("/", (snapshot) => {
-      console.log(snapshot.val());
-    });
+    firebase.database.getValue("/").then((snapshot) => {
+      if(snapshot.hasChildren()){
+        var list:Establishment[] = []
+        snapshot.forEach((childSnapshot) => {
+          if (childSnapshot.key === null) return;
+  
+          firebase.firestore.getDocument("users", childSnapshot.key).then((doc) => {
+              list.push({
+                id: childSnapshot.key,
+                establishment_name: doc.establishment_name,
+                location: doc.location,
+                status: childSnapshot.val().alert_level
+                
+              })
+          })
+        });
+        setEstablishments(list)
+      }
+      
+    })
+
+    firebase.database.onValue("/", (snapshot) => {
+      if(snapshot.hasChildren()){
+        var list:Establishment[] = []
+        snapshot.forEach((childSnapshot) => {
+          if (childSnapshot.key === null) return;
+  
+          firebase.firestore.getDocument("users", childSnapshot.key).then((doc) => {
+              
+              list.push({
+                id: childSnapshot.key,
+                establishment_name: doc.establishment_name,
+                location: doc.location,
+                status: childSnapshot.val().alert_level
+              })
+          })
+        });
+        setEstablishments(list)
+        console.log(list)
+      }
+    })
   }, []);
 
   return (

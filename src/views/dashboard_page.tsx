@@ -39,6 +39,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <MainTemplate className='' title='DASHBOARD'>
+      <div className="absolute"></div>
       <div className='flex w-full h-full gap-5 p-5 pt-0'>
         <div className='flex flex-col w-full gap-5 grow-[3]'>
           <div className='flex justify-between w-full gap-6 h-min'>
@@ -81,7 +82,7 @@ const DashboardPage: React.FC = () => {
                   {
                     sensors.map((item, index) => {
 
-                      return <tr key={index} className='h-10 text-center border-slate-700 border-y hover:bg-slate-800 cursor-pointer'>
+                      return <tr key={index} className='h-10 text-center cursor-pointer border-slate-700 border-y hover:bg-slate-800'>
                         <td className='px-5'>{
                           item[1].alert_level == "IDLE" ? 
                           <div className='text-green-500 border border-green-500 rounded-full'>IDLE</div> : 

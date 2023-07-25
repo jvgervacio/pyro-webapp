@@ -1,6 +1,7 @@
 
 export type Establishment = {
-    id: string
+    id: string | null
+    establishment_name: string
     location: GeoPoint
     status: "LOW" | "MEDIUM" | "HIGH" | "IDLE"
 }

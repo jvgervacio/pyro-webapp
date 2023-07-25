@@ -1,9 +1,9 @@
 // singleton firebase api service
 import { initializeApp } from 'firebase/app';
 import { Auth, Unsubscribe, User, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc, query, where, limit, getDoc } from 'firebase/firestore';
+import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc, query, where, limit, getDoc} from 'firebase/firestore';
 import { FirebaseStorage, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { Database, getDatabase, onChildChanged, set, onValue, ref as db_ref, DataSnapshot} from 'firebase/database';
+import { Database, getDatabase, onChildChanged, set, onValue, ref as db_ref, DataSnapshot, get} from 'firebase/database';
 import defaultProfileImage from '@assets/images/default.png';
 
 const firebaseConfig = {
@@ -148,6 +148,16 @@ class FirestoreAPI {
         return setDoc(doc(this.firestore, `${collection_name}/${document_id}`), data);
     }
 
+    public async getDocument(collection_name: string, document_id: string): Promise<DocumentData> {
+        const docRef = doc(this.firestore, `${collection_name}/${document_id}`);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return docSnap.data();
+        } else {
+            return {};
+        }
+    }
+
 }
 
 class DatabaseAPI {
@@ -170,7 +180,7 @@ class DatabaseAPI {
         return onValue(db_ref(this.database, path), callback);
     }
 
-    public onChildChanged(path: string, callback: (snapshot: DataSnapshot) => void): Unsubscribe {
+    public onChildChanged(path: string | undefined, callback: (snapshot: DataSnapshot) => void): Unsubscribe {
         return onChildChanged(db_ref(this.database, path), callback);
     }
 
@@ -178,6 +188,9 @@ class DatabaseAPI {
         return set(db_ref(this.database, path), value);
     }
 
+    public async getValue(path: string): Promise<DataSnapshot> {
+        return get(db_ref(this.database, path));
+    }
 }
 
 export default FirebaseAPI.getInstance();
