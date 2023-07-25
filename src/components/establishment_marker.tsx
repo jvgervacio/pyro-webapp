@@ -23,11 +23,11 @@ const EstablishmentMarker = (props: { establishment: Establishment, size: number
             pulseLottie = pulseLowLottie;
             flameLottie = fireLowLottie;
             break;
-        case "MEDIUM":
+        case "MODERATE":
             pulseLottie = pulseMediumLottie;
             flameLottie = fireMediumLottie;
             break;
-        case "HIGH":
+        case "EXTREME":
             pulseLottie = pulseHighLottie;
             flameLottie = fireHighLottie;
             break;

@@ -1,6 +1,6 @@
 import React from "react";
 import Map, { FullscreenControl, ViewState } from "react-map-gl";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Establishment } from "@utils/utility_types";
@@ -17,49 +17,30 @@ const TrackingPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const viewstate = useSelector((state: RootState) => state.map.viewstate);
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
-  
-  const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
-  
-  useEffect(() => {
-    firebase.database.getValue("/").then((snapshot) => {
-      if(snapshot.hasChildren()){
-        var list:Establishment[] = []
-        snapshot.forEach((childSnapshot) => {
-          if (childSnapshot.key === null) return;
-  
-          firebase.firestore.getDocument("users", childSnapshot.key).then((doc) => {
-              list.push({
-                id: childSnapshot.key,
-                establishment_name: doc.establishment_name,
-                location: doc.location,
-                status: childSnapshot.val().alert_level
-                
-              })
-          })
-        });
-        setEstablishments(list)
-      }
-      
-    })
 
-    firebase.database.onValue("/", (snapshot) => {
-      if(snapshot.hasChildren()){
-        var list:Establishment[] = []
-        snapshot.forEach((childSnapshot) => {
-          if (childSnapshot.key === null) return;
-  
-          firebase.firestore.getDocument("users", childSnapshot.key).then((doc) => {
-              
-              list.push({
-                id: childSnapshot.key,
-                establishment_name: doc.establishment_name,
-                location: doc.location,
-                status: childSnapshot.val().alert_level
-              })
+  const setViewState = (viewState: ViewState) => dispatch(mapSliceActions.setViewState(viewState));
+
+  useEffect(() => {
+    firebase.database.onValue("/", async (snapshot) => {
+      if (snapshot.hasChildren()) {
+        var list: Establishment[] = []
+        const data = snapshot.val()
+        for (const id in data) {
+          
+          // await firebase.firestore.getDocument("users", childSnapshot.key);
+          const doc = await firebase.firestore.getDocument("users", id);
+          console.log(doc)
+          list.push({
+            id: id,
+            establishment_name: doc.establishment_name,
+            location: doc.location,
+            status: data[id].status
           })
-        });
+
+          
+        }
         setEstablishments(list)
-        console.log(list)
+        
       }
     })
   }, []);
@@ -78,18 +59,18 @@ const TrackingPage: React.FC = () => {
             mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
             minZoom={3}
             bearing={viewstate.bearing}
-            onZoom={(e) => {setViewState(e.viewState) }}
+            onZoom={(e) => { setViewState(e.viewState) }}
             onMove={(e) => { setViewState(e.viewState) }}
             onClick={(e) => { console.log(e.lngLat) }}
             attributionControl={false}
-            
+
           >
             {/* <FullscreenControl style={{ backgroundColor: "transparent", color: "white", fill: "white" }} /> */}
 
             {
               // loop through the establishments and create a marker for each with different key
               establishments.map((establishment) => {
-                var size = viewstate.zoom * (establishment.status == "IDLE" ? 2:5);
+                var size = viewstate.zoom * (establishment.status == "IDLE" ? 2 : 5);
                 if (establishment.location === null) return;
                 return (
                   <EstablishmentMarker key={`marker_${establishment.id}`} establishment={establishment} size={size} />

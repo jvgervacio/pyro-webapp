@@ -74,7 +74,7 @@ class AuthAPI {
         return user;
     }
 
-    public async signInWith(email: string, password: string): Promise<UserCredential> {
+    public async signIn(email: string, password: string): Promise<UserCredential> {
         return signInWithEmailAndPassword(this.auth, email, password);
     }
 

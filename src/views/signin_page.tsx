@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "@store/features/auth-slice";
 import firebase from "@services/firebase_api";
 import { FirebaseError } from "firebase/app";
-import { AuthErrorCodes } from "firebase/auth";
+import { AuthErrorCodes, signInWithEmailAndPassword } from 'firebase/auth';
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from 'react';
@@ -25,7 +25,7 @@ const SigninPage: React.FC = () => {
     // catch FirebaseError
     try {
       setLoading(true);
-      const user = await firebase.firestore
+      const user = (await firebase.auth.signIn(email, password)).user;
       dispatch(authActions.login(user));
     } catch (err) {
       if (err instanceof FirebaseError) {

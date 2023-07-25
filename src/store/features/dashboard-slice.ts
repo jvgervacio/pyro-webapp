@@ -12,7 +12,7 @@ const dashboardSlice = createSlice({
             { title: "Triggered Alarms", icon: GiFire, value: 0 },
             { title: "Total Alarms", icon: GiRingingAlarm, value: 0 },
         ] as { title: string, icon: any, value: number }[],
-        sensors: new Array<[string, Sensor]>()
+        sensors: new Array<Sensor>()
         
     },
     reducers: {
@@ -27,7 +27,7 @@ const dashboardSlice = createSlice({
         setTriggeredAlarms(state, action) {
             state.indicators[1].value = action.payload;
         },
-        setTotaAlarms(state, action) {
+        setTotalAlarms(state, action) {
             state.indicators[2].value = action.payload;
         } 
     },

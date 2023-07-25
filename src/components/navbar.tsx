@@ -27,8 +27,8 @@ const Navbar: React.FC<{ className?: string }> = (props) => {
         <div className="flex items-center gap-10">
           <section className="flex items-center justify-center gap-1 align-middle logo">
             <img src={logosvg} alt="logo" className="h-[70px] w-full p-3" />
-            <a className="text-2xl font-bold tracking-widest font-montserrat text-orange_peel">
-              PYRO
+            <a className="text-xl font-semibold tracking-widest font-montserrat text-orange_peel">
+              PYROSENSE
             </a>
           </section>
           <section className="hidden sm:gap-10 sm:flex">

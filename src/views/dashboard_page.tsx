@@ -1,8 +1,5 @@
 import { MainTemplate } from '@components/template';
 import Card from '@components/card';
-import { GiFire, GiMovementSensor, GiRingingAlarm } from 'react-icons/gi'
-import { AiFillFire } from 'react-icons/ai'
-import TwoWrapper from '@components/two';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -14,28 +11,38 @@ import ReactNode from 'react';
 
 const DashboardPage: React.FC = () => {
   const indicators = useSelector((state: RootState) => state.dashboard.indicators)
-  const sensors = useSelector((state: RootState) => state.dashboard.sensors)
-
   const user = useSelector((state: RootState) => state.auth.user)
+  const [sensors, setSensors] = useState<Sensor[]>([]);
   const dispatch = useDispatch();
   
   useEffect(() => {
-    
-    firebase.firestore.onSnapshotDocument('users', "CPyh8WIQL8W0ivd4xYaoaTAhSsp2", (data) => {
-      const list: [string, Sensor][] = []
-      var n_triggered = 0;
-      Object.entries(data.docs[0].data().sensors).forEach((sensor) => {
-        const sensort = sensor as [string, Sensor]
-        list.push(sensort)
-        if (sensort[1].triggered) n_triggered++;
 
-      })
-      console.log("updated")
-      dispatch(dashboardActions.setTotaAlarms(list.length));
-      dispatch(dashboardActions.setTriggeredAlarms(n_triggered));
-      dispatch(dashboardActions.setSensors(list));
-    });
-  }, [user]);
+    if (user === null) return;
+    
+    firebase.database.onValue(user?.uid, (snapshot) => {
+      const data = snapshot.val()
+      const sensor_list = [] as Sensor[]
+      const list = data.sensors
+      console.log(list)
+      for (const sensor_id in data.sensors) {
+        const sensor: Sensor = {
+          id: sensor_id,
+          status: list[sensor_id].status,
+          description: list[sensor_id].description,
+          zone: list[sensor_id].zone,
+          floor: list[sensor_id].floor,
+          flame: list[sensor_id].flame,
+          smoke: list[sensor_id].smoke,
+          timestamp: list[sensor_id].timestamp
+        }
+        sensor_list.push(sensor)
+      }
+      dispatch(dashboardActions.setTriggeredAlarms(data.total_triggered));
+      dispatch(dashboardActions.setTotalAlarms(data.total_sensors));
+      setSensors(sensor_list)
+    })
+    
+  }, []);
 
   return (
     <MainTemplate className='' title='DASHBOARD'>
@@ -54,10 +61,7 @@ const DashboardPage: React.FC = () => {
                 </Card>)
             }
           </div>
-          {/* <Card className='flex h-full bg-gradient-to-tr from-slate-800 to-slate-900'>
-            <TwoWrapper className = "absolute top-0 left-0 w-full h-full bg-transparent"/>
-            <button className='absolute right-5 bottom-5 button'>reset</button>
-          </Card> */}
+
           <div className='flex flex-col h-full gap-2'>
             <div className='flex'>
               <h1>Sensors</h1>
@@ -81,33 +85,42 @@ const DashboardPage: React.FC = () => {
                 <tbody>
                   {
                     sensors.map((item, index) => {
-
+                      var color = ""
+                      switch (item.status) {
+                        case 'OFFLINE':
+                          color = 'slate-500'
+                          break;
+                        case 'IDLE':
+                          color = 'green-500'
+                          break;
+                        case 'LOW':
+                          color = 'yellow-500'
+                          break;
+                        case 'MODERATE':
+                          color = 'orange-500'
+                          break;
+                        case 'EXTREME':
+                          color = 'red-500'
+                      }
                       return <tr key={index} className='h-10 text-center cursor-pointer border-slate-700 border-y hover:bg-slate-800'>
                         <td className='px-5'>{
-                          item[1].alert_level == "IDLE" ? 
-                          <div className='text-green-500 border border-green-500 rounded-full'>IDLE</div> : 
-                          item[1].alert_level == "LOW" ? 
-                          <div className='text-yellow-500 border border-yellow-500 rounded-full'>LOW</div> : 
-                          item[1].alert_level == "MEDIUM" ? 
-                          <div className='text-orange-500 border border-orange-500 rounded-full'>MEDIUM</div> : 
-                          <div className='text-red-500 border border-red-500 rounded-full'>HIGH</div> 
+                          <div className={`text-${color} border-${color} border rounded-full`}>{item.status}</div>
                         }</td>
-                        <td>{item[0]}</td>
-                        <td className='text-left'>{item[1].description}</td>
-                        <td>{item[1].zone}</td>
-                        <td>{item[1].floor}</td>
-                        <td className='grid h-10 place-items-center'>{item[1].flame_sensor ? <AiFillFire className='text-2xl text-red-600'/> : <AiFillFire className='text-2xl text-slate-500'/>}</td>
-                        <td>{item[1].smoke_sensor}</td>
+                        <td>{item.id}</td>
+                        <td className="text-left">{item.description}</td>
+                        <td>{item.zone}</td>
+                        <td>{item.floor}</td>
+                        <td>{item.status == "OFFLINE" ? "-":item.flame}</td>
+                        <td>{item.status == "OFFLINE" ? "-":item.smoke}</td>
                       </tr>
-                    })
-                    
+                    }) 
                   }
                 </tbody>
               </table>
             </Card>
           </div>
         </div>
-        
+
       </div>
     </MainTemplate>
   );

@@ -3,7 +3,7 @@ export type Establishment = {
     id: string | null
     establishment_name: string
     location: GeoPoint
-    status: "LOW" | "MEDIUM" | "HIGH" | "IDLE"
+    status: "LOW" | "MODERATE" | "EXTREME" | "IDLE" | "OFFLINE"
 }
 
 export type GeoPoint = {
@@ -13,11 +13,12 @@ export type GeoPoint = {
 
 
 export type Sensor = {
-    alert_level: "LOW" | "MEDIUM" | "HIGH" | "IDLE",
-    flame_sensor: boolean,
-    smoke_sensor: number,
-    triggered: boolean,
+    id: string,
     zone: number,
     floor: number,
+    flame: boolean,
+    smoke: number,
+    timestamp: number,
     description: string,
+    status: "LOW" | "MODERATE" | "EXTREME" | "IDLE" | "OFFLINE",
 }
