@@ -89,7 +89,7 @@ const DashboardPage: React.FC = () => {
                   <div className='absolute top-0 left-0 grid w-full h-full place-content-center place-items-center'>
                     <div className='flex flex-col text-center'>
                       <p className='text-xl font-medium'>{item.title}</p>
-                      <p className='font-bold font-montserrat text-[120px]'>{0}</p>
+                      <p className='font-bold font-montserrat text-[120px]'>{item.value}</p>
                     </div>
                   </div>
                 </Card>)
