@@ -10,8 +10,6 @@ import logo_svg from '../assets/svg/logo.svg';
 const Sidebar: React.FC<{ className: string }> = (props) => {
     const sidebar_items = [
         { link: '/dashboard', title: "Dashboard", icon: MdSpaceDashboard },
-        { link: '/history', title: "History", icon: MdHistory },
-        
     ];
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
@@ -19,6 +17,7 @@ const Sidebar: React.FC<{ className: string }> = (props) => {
     const logout = () => {
         getAuth().signOut();
         dispatch(authActions.logout());
+        navigate('/');
     };
     return (
         <div className={"relative hidden sm:block" + props.className}>

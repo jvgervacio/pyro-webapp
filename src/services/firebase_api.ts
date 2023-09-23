@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { Auth, Unsubscribe, User, UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { DocumentData, Firestore, QuerySnapshot, getFirestore, onSnapshot, collection, setDoc, doc, query, where, limit, getDoc} from 'firebase/firestore';
 import { FirebaseStorage, UploadResult, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { Database, getDatabase, onChildChanged, set, onValue, ref as db_ref, DataSnapshot, get} from 'firebase/database';
+import { Database, getDatabase, onChildChanged, set, onValue, ref as db_ref, DataSnapshot, get, update} from 'firebase/database';
 import defaultProfileImage from '@assets/images/default.png';
 
 const firebaseConfig = {
@@ -186,6 +186,10 @@ class DatabaseAPI {
 
     public async setValue(path: string, value: any): Promise<void> {
         return set(db_ref(this.database, path), value);
+    }
+
+    public async updateValue(path: string, value: any): Promise<void> {
+        return update(db_ref(this.database, path), value);
     }
 
     public async getValue(path: string): Promise<DataSnapshot> {
