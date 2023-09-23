@@ -57,9 +57,8 @@ const DashboardPage: React.FC = () => {
         
         const current_time = new Date()
         const difference = current_time.getTime() - data.timestamp
-        
-        console.log(difference)
-        if (difference > 30000) { 
+        console.log(current_time.getTime(), difference)
+        if (difference > 300000) { 
           setStatus("OFFLINE")
         }else{
           setStatus(data.status)
